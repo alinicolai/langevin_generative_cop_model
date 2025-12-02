@@ -11,7 +11,7 @@ import pandas
 import os
 
 from resampling.swarii import SWARII
-from models.com_approximation import compute_com_from_cop_LPF_simplified
+from models.com_approximation import compute_com_from_cop_LPFA
 from models.fit import fit_langevin_model
 from models.plot import plot_langevin_model
 
@@ -35,13 +35,13 @@ preprocessed_cop = SWARII.resample(data=time_cop,
 preprocessed_cop = preprocessed_cop - np.mean(preprocessed_cop)
 
 # Compute estimated CoP using the LPFA method  
-estimated_LPFA_com = compute_com_from_cop_LPF_simplified(preprocessed_cop, frequency=frequency)
+estimated_LPFA_com = compute_com_from_cop_LPFA(preprocessed_cop, frequency=frequency)
 
 # Remove first and last points to avoid edge effects
 estimated_LPFA_com = estimated_LPFA_com[frequency:-frequency]
 preprocessed_cop = preprocessed_cop[frequency:-frequency]
 
-model_name = 'global_recall'
+model_name = 'total_recall'
 
 cop_params_table, generated_cop, generated_com = fit_langevin_model(model_name=model_name, 
                                                                      cop=preprocessed_cop, 
